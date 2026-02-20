@@ -68,7 +68,7 @@ export function useMessages(conversationId: number | null) {
   });
 }
 
-export function useSendMessage() {@@
+export function useSendMessage() {
   const { authHeaders } = useAuth();
   const queryClient = useQueryClient();
   const { toast } = useToast();
