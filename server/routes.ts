@@ -2,9 +2,13 @@
 import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { db } from "./db";
+import { users, apiTokens } from "@shared/schema";
 import { api, errorSchemas } from "@shared/routes";
+import { eq, and, isNull } from "drizzle-orm";
 import { z } from "zod";
 import multer from "multer";
+import bcrypt from "bcrypt";
 
 const upload = multer({ storage: multer.memoryStorage() });
 
@@ -13,24 +17,57 @@ export async function registerRoutes(
   app: Express
 ): Promise<Server> {
 
-  // Middleware to check for token existence (basic validation)
-  const requireToken = (req: Request, res: Response, next: Function) => {
+  // === Auth Routes (DB-based) ===
+  app.post("/api/auth/login", async (req, res) => {
+    const { username, password } = req.body;
+    if (!username || !password) {
+      return res.status(400).json({ error: "Username and password required" });
+    }
+
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    if (!user) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    return res.json({ success: true, username: user.username });
+  });
+
+  app.post("/api/auth/validate-token", async (req, res) => {
+    const { token } = req.body;
+    if (!token) {
+      return res.status(400).json({ error: "Token is required" });
+    }
+
+    const [apiToken] = await db.select().from(apiTokens)
+      .where(and(eq(apiTokens.token, token), isNull(apiTokens.revokedAt)));
+
+    if (apiToken) {
+      return res.json({ success: true });
+    }
+    return res.status(403).json({ error: "Invalid access token" });
+  });
+
+  // Middleware to check for valid API token from DB
+  const requireToken = async (req: Request, res: Response, next: Function) => {
     const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ') || authHeader.length < 10) {
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.status(401).json({ message: "Invalid or missing API token" });
     }
-    // Simulate random "Quota exceeded" (403) or "Service Unavailable" (503) for testing
-    // In a real app, this would check a DB or external service.
-    // For this demo, we'll keep it reliable unless a specific "magic" token is used
-    // or just let it pass.
-    if (authHeader.includes("error-403")) {
-      return res.status(403).json({ message: "Billing quota exceeded" });
+
+    const tokenValue = authHeader.split(' ')[1];
+    const [apiToken] = await db.select().from(apiTokens)
+      .where(and(eq(apiTokens.token, tokenValue), isNull(apiTokens.revokedAt)));
+
+    if (!apiToken) {
+      return res.status(401).json({ message: "Invalid or revoked API token" });
     }
-    if (authHeader.includes("error-503")) {
-      return res.status(503).json({ message: "Service temporarily unavailable" });
-    }
-    
-    (req as any).token = authHeader.split(' ')[1];
+
+    (req as any).token = tokenValue;
     next();
   };
 

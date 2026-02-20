@@ -1,12 +1,10 @@
 import { defineConfig } from "drizzle-kit";
 
-
-
 export default defineConfig({
   out: "./migrations",
   schema: "./shared/schema.ts",
-  dialect: "postgresql",
+  dialect: "mysql",
   dbCredentials: {
-    url: "mysql://root:@localhost:3306/tanulopont",
+    url: "mysql://root:password@localhost:3306/euroskills2023",
   },
 });

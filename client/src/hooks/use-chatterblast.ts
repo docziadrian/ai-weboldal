@@ -1,7 +1,14 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api, buildUrl } from "@shared/routes";
-import { useAuth } from "./use-auth";
+import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+
+function handleApiError(res: Response) {
+  if (res.status === 401) throw new Error("Invalid or expired API token. Please re-enter your token.");
+  if (res.status === 403) throw new Error("Billing quota exceeded. Please check your plan.");
+  if (res.status === 503) throw new Error("Service temporarily unavailable. Try again later.");
+  throw new Error(`Request failed (${res.status})`);
+}
 
 export function useConversations() {
   const { authHeaders } = useAuth();
@@ -24,8 +31,7 @@ export function useCreateConversation() {
       });
       
       if (!res.ok) {
-        if (res.status === 401) throw new Error("Unauthorized");
-        throw new Error("Failed to create conversation");
+        handleApiError(res);
       }
       return await res.json();
     },
@@ -53,7 +59,7 @@ export function useMessages(conversationId: number | null) {
 
       if (!res.ok) {
         if (res.status === 404) return [];
-        throw new Error("Failed to fetch messages");
+        handleApiError(res);
       }
       return await res.json();
     },
@@ -62,7 +68,7 @@ export function useMessages(conversationId: number | null) {
   });
 }
 
-export function useSendMessage() {
+export function useSendMessage() {@@
   const { authHeaders } = useAuth();
   const queryClient = useQueryClient();
   const { toast } = useToast();
@@ -79,8 +85,7 @@ export function useSendMessage() {
       });
 
       if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.message || "Failed to send message");
+        handleApiError(res);
       }
       return await res.json();
     },

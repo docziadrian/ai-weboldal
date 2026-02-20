@@ -1,0 +1,362 @@
+{
+  "totalMark": 22,
+  "wsosSections": {
+    "1": "Work organization and self-management",
+    "2": "Communication and interpersonal skills",
+    "3": "Design Implementation",
+    "4": "Front-End Development",
+    "5": "Back-End Development"
+  },
+  "subCriterions": [
+    {
+      "name": "Frontend design",
+      "aspects": [
+        {
+          "type": "judgement",
+          "description": "A frontend design is applied",
+          "maxMark": 2,
+          "wsosSection": 3,
+          "judgementScoreDescription": [
+            "No styling applied at all",
+            "Basic styling is applied and the content is readable (no overlapping/truncated elements), but some elements have the default browser styling",
+            "Basic styling is applied and there are no elements that have the default browser styling and the content is readable (no overlapping/truncated elements)",
+            "Advanced styling is applied, resulting in a visually appealing and cohesive design. The content is not only readable and free from overlapping/truncated elements but also showcases creative use of typography, colors, spacing, and imagery to enhance the overall aesthetic and user experience."
+          ]
+        },
+        {
+          "type": "judgement",
+          "description": "Home page is well structured and clear",
+          "maxMark": 0.25,
+          "wsosSection": 3,
+          "judgementScoreDescription": [
+            "Home page is not implemented or not styled",
+            "Basic styling is applied to home page",
+            "Home page has a good syling overall and are well structured, but not everything is clearly displayed or users might have questions what some parts mean",
+            "Home page has a good syling overall and are well structured, everything is clear to users"
+          ]
+        },
+        {
+          "type": "judgement",
+          "description": "ChatterBlast page is well structured and clear",
+          "maxMark": 1,
+          "wsosSection": 3,
+          "judgementScoreDescription": [
+            "The page feels either empty or overloaded, lacking a clear and well-structured layout. The content may appear sparse, leaving the user wanting more information or engagement. Alternatively, the page may be cluttered with an excessive amount of elements, making it difficult to navigate and comprehend the information effectively.",
+            "The page has a basic structure and clarity, making it easy to navigate and understand the content. While it may not have advanced styling or intricate design elements, the page effectively presents the information without feeling empty or overloaded.",
+            "The page is well-structured and clear, demonstrating a thoughtful organization of content. The design elements and styling applied enhance the readability and user experience, ensuring that the page does not appear cluttered or overwhelming.",
+            "The page exhibits exceptional structural integrity and clarity. It is meticulously organized, with intuitive navigation and a visually pleasing layout. The advanced styling and attention to detail elevate the overall aesthetics, providing a polished and professional appearance while effectively communicating the content."
+          ]
+        },
+        {
+          "type": "judgement",
+          "description": "DreamWeaver page is well structured and clear",
+          "maxMark": 1,
+          "wsosSection": 3,
+          "judgementScoreDescription": [
+            "The page feels either empty or overloaded, lacking a clear and well-structured layout. The content may appear sparse, leaving the user wanting more information or engagement. Alternatively, the page may be cluttered with an excessive amount of elements, making it difficult to navigate and comprehend the information effectively.",
+            "The page has a basic structure and clarity, making it easy to navigate and understand the content. While it may not have advanced styling or intricate design elements, the page effectively presents the information without feeling empty or overloaded.",
+            "The page is well-structured and clear, demonstrating a thoughtful organization of content. The design elements and styling applied enhance the readability and user experience, ensuring that the page does not appear cluttered or overwhelming.",
+            "The page exhibits exceptional structural integrity and clarity. It is meticulously organized, with intuitive navigation and a visually pleasing layout. The advanced styling and attention to detail elevate the overall aesthetics, providing a polished and professional appearance while effectively communicating the content."
+          ]
+        },
+        {
+          "type": "judgement",
+          "description": "MindReader page is well structured and clear",
+          "maxMark": 0.75,
+          "wsosSection": 3,
+          "judgementScoreDescription": [
+            "The page feels either empty or overloaded, lacking a clear and well-structured layout. The content may appear sparse, leaving the user wanting more information or engagement. Alternatively, the page may be cluttered with an excessive amount of elements, making it difficult to navigate and comprehend the information effectively.",
+            "The page has a basic structure and clarity, making it easy to navigate and understand the content. While it may not have advanced styling or intricate design elements, the page effectively presents the information without feeling empty or overloaded.",
+            "The page is well-structured and clear, demonstrating a thoughtful organization of content. The design elements and styling applied enhance the readability and user experience, ensuring that the page does not appear cluttered or overwhelming.",
+            "The page exhibits exceptional structural integrity and clarity. It is meticulously organized, with intuitive navigation and a visually pleasing layout. The advanced styling and attention to detail elevate the overall aesthetics, providing a polished and professional appearance while effectively communicating the content."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Home Page",
+      "aspects": [
+        {
+          "type": "measurement",
+          "description": "The home page lists the services",
+          "maxMark": 0.25,
+          "wsosSection": 4,
+          "extraDescription": "The three services are listed alphabetically ordered and a link navigates to the respective service page.",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ChatterBlast Page",
+      "aspects": [
+        {
+          "type": "measurement",
+          "description": "The required elements are rendered",
+          "maxMark": 1,
+          "wsosSection": 4,
+          "extraDescription": "- A text input field for the user to enter a message.\r\n- A button to clear the text input.\r\n- A button to send the message to the chatbot for the current conversation or create a new conversation if it's the\r\n  first one.\r\n- An area to display the response from the chatbot.\r\n- A button to start a new conversation with the chatbot.\r\n",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        },
+        {
+          "type": "measurement",
+          "description": "The elements are disabled without token",
+          "maxMark": 0.5,
+          "wsosSection": 4,
+          "extraDescription": "If the user has not entered a token yet, the buttons and input are disabled and cannot be interacted with. A message shows that a token is required which allows to enter the auth token.",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        },
+        {
+          "type": "measurement",
+          "description": "Conversation start",
+          "maxMark": 0.5,
+          "wsosSection": 4,
+          "extraDescription": "A conversation can be started by entering a prompt and clicking the send button.",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        },
+        {
+          "type": "measurement",
+          "description": "Response renderering",
+          "maxMark": 1.5,
+          "wsosSection": 4,
+          "extraDescription": "The response text must be animated in a typewriter style. The animation should contain a blinking cursor and each character should be rendered individually with a random delay between 2ms and 20ms.",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        },
+        {
+          "type": "measurement",
+          "description": "Prompt input disabled while response not final",
+          "maxMark": 0.5,
+          "wsosSection": 4,
+          "extraDescription": "The prompt input and the send button are disabled while the response is being generated. Once the response is final, the elements become enabled automatically.",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        },
+        {
+          "type": "measurement",
+          "description": "New conversation button",
+          "maxMark": 0.25,
+          "wsosSection": 4,
+          "extraDescription": "Once a conversation has started, clicking the \"New Conversation\" button clears the prompts, responses and the input. A new conversation can be started, which does not have the same conversation ID.",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        },
+        {
+          "type": "measurement",
+          "description": "Clear prompt input",
+          "maxMark": 0.25,
+          "wsosSection": 4,
+          "extraDescription": "Clicking the clear prompt button clears the input.",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        }
+      ]
+    },
+    {
+      "name": "DreamWeaver Page",
+      "aspects": [
+        {
+          "type": "measurement",
+          "description": "The required elements are rendered",
+          "maxMark": 1,
+          "wsosSection": 4,
+          "extraDescription": "- A text input field for the user to enter a text.\r\n- A button to clear the text input.\r\n- A button to generate a new image.\r\n- An area to display the generated image.\r\n- A button to save the image to the local file system.\r\n- A button to upscale the image.\r\n- A button to zoom in and out of the image.",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        },
+        {
+          "type": "measurement",
+          "description": "The elements are disabled without token",
+          "maxMark": 0.5,
+          "wsosSection": 4,
+          "extraDescription": "If the user has not entered a token yet, the buttons and input are disabled and cannot be interacted with. A message shows that a token is required which allows to enter the auth token.",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        },
+        {
+          "type": "measurement",
+          "description": "Prompt input starts image generation job",
+          "maxMark": 0.5,
+          "wsosSection": 4,
+          "extraDescription": "Entering a prompt starts a new image generation job.",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        },
+        {
+          "type": "measurement",
+          "description": "Progress is displayed",
+          "maxMark": 0.5,
+          "wsosSection": 4,
+          "extraDescription": "The job progress is displayed in percentage and updated every 2 seconds.",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        },
+        {
+          "type": "measurement",
+          "description": "Preliminary image is rendered",
+          "maxMark": 1.5,
+          "wsosSection": 4,
+          "extraDescription": "The preliminary image should be animated with a fade-in effect until the final image is available. It should be checked every 2 seconds if there is a new preliminary image.",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        },
+        {
+          "type": "measurement",
+          "description": "Image generation button disabled while job in progress",
+          "maxMark": 0.5,
+          "wsosSection": 4,
+          "extraDescription": "The button to generate a new image, the upscale button, and the zoom buttons are disabled. The upscale and zoom buttons are disabled when there is no final image yet.",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        },
+        {
+          "type": "measurement",
+          "description": "Clear prompt button clears the prompt input",
+          "maxMark": 0.25,
+          "wsosSection": 4,
+          "extraDescription": "Clicking the \"Clear prompt\" button clears the prompt input.",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        },
+        {
+          "type": "measurement",
+          "description": "Image download",
+          "maxMark": 0.5,
+          "wsosSection": 4,
+          "extraDescription": "The image download button allows to save the final image by opening the OS file save dialog.",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        },
+        {
+          "type": "measurement",
+          "description": "Upscale, Zoom in, Zoom out",
+          "maxMark": 0.5,
+          "wsosSection": 4,
+          "extraDescription": "The upscale, zoom in and out buttons allow the user to start a new job based on the previous final image. The job status is polled and shown as with a new image.",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        }
+      ]
+    },
+    {
+      "name": "MindReader Page",
+      "aspects": [
+        {
+          "type": "measurement",
+          "description": "The required elements are rendered",
+          "maxMark": 1,
+          "wsosSection": 4,
+          "extraDescription": "- A file input field for the user to upload an image.\r\n- A button to upload the image to the service.",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        },
+        {
+          "type": "measurement",
+          "description": "The elements are disabled without token",
+          "maxMark": 0.5,
+          "wsosSection": 4,
+          "extraDescription": "If the user has not entered a token yet, the button and input are disabled and cannot be interacted with. A message shows that a token is required which allows to enter the auth token.",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        },
+        {
+          "type": "measurement",
+          "description": "An image can be selected and uploaded",
+          "maxMark": 0.75,
+          "wsosSection": 4,
+          "extraDescription": "The file input allows to select an image from the OS file selector and the button to recognize images uploads the image to the server and starts to recognize the objects.",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        },
+        {
+          "type": "measurement",
+          "description": "Number of objects recognized is displayed",
+          "maxMark": 0.25,
+          "wsosSection": 4,
+          "extraDescription": "Once objects are recognized, a message that indicates how many objects have been recognized. ",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        },
+        {
+          "type": "measurement",
+          "description": "Objects recognized have a bounding box",
+          "maxMark": 1.5,
+          "wsosSection": 4,
+          "extraDescription": "The recognized objects are shown with a transparent rectangle with a red border on top of the image alongside a label in the upper left corner of the rectangle.",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Error Handling",
+      "aspects": [
+        {
+          "type": "measurement",
+          "description": "Error Messages",
+          "maxMark": 1,
+          "wsosSection": 4,
+          "extraDescription": "The server errors with code 400, 401, 403, 503 must be handled and shown with a human readable error message to the user. The content of the page must not disappear. The error must be shown ontop of the content or inserted, without replacing content.",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "aspects": [
+        {
+          "type": "measurement",
+          "description": "API Token",
+          "maxMark": 0.5,
+          "wsosSection": 4,
+          "extraDescription": "The API token must be stored in the current browser instance, so that the user does not have to\r\nenter it again, even if they reload the page or navigate to another AI service.",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Routing",
+      "aspects": [
+        {
+          "type": "measurement",
+          "description": "Singe Page Application Routing",
+          "maxMark": 1,
+          "wsosSection": 4,
+          "extraDescription": "Page reloads must present the same content to the user as previously visible, except unsaved user driven inputs or temporary outputs.",
+          "calculation": {
+            "type": "pass-or-fail"
+          }
+        }
+      ]
+    }
+  ]
+}

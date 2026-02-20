@@ -23,14 +23,13 @@ export interface IStorage {
   createImageJob(token: string, prompt: string): Promise<ImageJob>;
   getImageJob(id: number): Promise<ImageJob | undefined>;
   updateImageJob(id: number, updates: Partial<ImageJob>): Promise<ImageJob>;
-
-  // MindReader
-  // (No persistent storage needed for requirements, but good for logging if extended)
 }
 
 export class DatabaseStorage implements IStorage {
   async createConversation(token: string): Promise<Conversation> {
-    const [conversation] = await db.insert(conversations).values({ token }).returning();
+    const result: any = await db.insert(conversations).values({ token });
+    const insertId = result[0]?.insertId;
+    const [conversation] = await db.select().from(conversations).where(eq(conversations.id, insertId));
     return conversation;
   }
 
@@ -40,7 +39,9 @@ export class DatabaseStorage implements IStorage {
   }
 
   async addMessage(conversationId: number, role: 'user' | 'assistant', content: string, isComplete: boolean = true): Promise<Message> {
-    const [message] = await db.insert(messages).values({ conversationId, role, content, isComplete }).returning();
+    const result: any = await db.insert(messages).values({ conversationId, role, content, isComplete });
+    const insertId = result[0]?.insertId;
+    const [message] = await db.select().from(messages).where(eq(messages.id, insertId));
     return message;
   }
 
@@ -49,20 +50,22 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateMessage(id: number, content: string, isComplete: boolean): Promise<Message> {
-    const [message] = await db.update(messages)
+    await db.update(messages)
       .set({ content, isComplete })
-      .where(eq(messages.id, id))
-      .returning();
+      .where(eq(messages.id, id));
+    const [message] = await db.select().from(messages).where(eq(messages.id, id));
     return message;
   }
 
   async createImageJob(token: string, prompt: string): Promise<ImageJob> {
-    const [job] = await db.insert(imageJobs).values({
+    const result: any = await db.insert(imageJobs).values({
       token,
       prompt,
       status: 'pending',
       progress: 0,
-    }).returning();
+    });
+    const insertId = result[0]?.insertId;
+    const [job] = await db.select().from(imageJobs).where(eq(imageJobs.id, insertId));
     return job;
   }
 
@@ -72,7 +75,8 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateImageJob(id: number, updates: Partial<ImageJob>): Promise<ImageJob> {
-    const [job] = await db.update(imageJobs).set(updates).where(eq(imageJobs.id, id)).returning();
+    await db.update(imageJobs).set(updates).where(eq(imageJobs.id, id));
+    const [job] = await db.select().from(imageJobs).where(eq(imageJobs.id, id));
     return job;
   }
 }

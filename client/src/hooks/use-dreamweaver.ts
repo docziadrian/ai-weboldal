@@ -1,8 +1,15 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api, buildUrl } from "@shared/routes";
-import { useAuth } from "./use-auth";
+import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { ImageJob } from "@shared/schema";
+
+function handleApiError(res: Response) {
+  if (res.status === 401) throw new Error("Invalid or expired API token. Please re-enter your token.");
+  if (res.status === 403) throw new Error("Billing quota exceeded. Please check your plan.");
+  if (res.status === 503) throw new Error("Service temporarily unavailable. Try again later.");
+  throw new Error(`Request failed (${res.status})`);
+}
 
 export function useGenerateImage() {
   const { authHeaders } = useAuth();
@@ -20,8 +27,7 @@ export function useGenerateImage() {
       });
 
       if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.message || "Generation failed");
+        handleApiError(res);
       }
       return await res.json() as ImageJob;
     },
@@ -47,7 +53,9 @@ export function useImageJob(id: number | null) {
         headers: { ...authHeaders() },
       });
 
-      if (!res.ok) throw new Error("Failed to fetch job status");
+      if (!res.ok) {
+        handleApiError(res);
+      }
       return await res.json() as ImageJob;
     },
     enabled: !!id,

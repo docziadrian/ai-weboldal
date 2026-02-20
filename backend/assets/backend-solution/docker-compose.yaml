@@ -1,0 +1,39 @@
+include:
+  - ../ai-services/docker-compose.yml
+  - ../swagger/docker-compose.yml
+services:
+  db:
+    image: mariadb:11.0.2-jammy
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: euroskills2023
+      MYSQL_USER: skill17
+      MYSQL_PASSWORD: password
+      TZ: Europe/Warsaw
+    volumes:
+      - data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+  phpmyadmin:
+    image: phpmyadmin:5.2.1-apache
+    restart: always
+    ports:
+      - "8080:80"
+  app:
+    image: node:18.17.0-alpine3.17
+    environment:
+      - DB_HOST=db
+      - DB_USER=skill17
+      - DB_PASSWORD=password
+      - DB_NAME=euroskills2023
+      - NPM_CONFIG_CACHE=/tmp/.npm
+      - CHATTERBLAST_BASE_URL=http://ai-services:9001
+      - DREAMWEAVER_BASE_URL=http://ai-services:9002
+      - MINDREADER_BASE_URL=http://ai-services:9003
+    volumes:
+      - ./:/app
+    ports:
+      - "3000:3000"
+    command: npm --prefix /app run dev
+volumes:
+  data:

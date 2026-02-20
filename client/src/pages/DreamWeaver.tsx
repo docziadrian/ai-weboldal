@@ -130,7 +130,7 @@ export default function DreamWeaver() {
                   <span>PROCESSING...</span>
                   <span>{Math.round(visualProgress)}%</span>
                 </div>
-                <Progress value={visualProgress} className="h-2 bg-white/5 text-yellow-500" indicatorClassName="bg-yellow-500" />
+                <Progress value={visualProgress} className="h-2 bg-white/5 [&>div]:bg-yellow-500" />
               </div>
             </div>
           ) : job.status === 'failed' ? (

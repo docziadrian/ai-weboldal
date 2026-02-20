@@ -1,12 +1,25 @@
 import { Route, Switch, Redirect } from "wouter";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./lib/queryClient";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { Layout } from "./components/Layout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import ChatterBlast from "./pages/ChatterBlast";
+import DreamWeaver from "./pages/DreamWeaver";
+import MindReader from "./pages/MindReader";
 
-function ProtectedRoute({ component: Component }: { component: React.ComponentType }) {
+function ProtectedRoute({ component: Component, withLayout }: { component: React.ComponentType; withLayout?: boolean }) {
   const { isLoggedIn } = useAuth();
   if (!isLoggedIn) {
     return <Redirect to="/login" />;
+  }
+  if (withLayout) {
+    return (
+      <Layout>
+        <Component />
+      </Layout>
+    );
   }
   return <Component />;
 }
@@ -22,7 +35,15 @@ function AppRoutes() {
       <Route path="/">
         <ProtectedRoute component={Home} />
       </Route>
-      {/* Add your service routes here, also protected */}
+      <Route path="/chatterblast">
+        <ProtectedRoute component={ChatterBlast} withLayout />
+      </Route>
+      <Route path="/dreamweaver">
+        <ProtectedRoute component={DreamWeaver} withLayout />
+      </Route>
+      <Route path="/mindreader">
+        <ProtectedRoute component={MindReader} withLayout />
+      </Route>
       <Route>
         <Redirect to="/" />
       </Route>
@@ -32,8 +53,10 @@ function AppRoutes() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <AppRoutes />
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }

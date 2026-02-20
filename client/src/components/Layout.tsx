@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { Link, useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { Zap, Brain, MessageSquare, LogOut, Hexagon } from "lucide-react";
-import { useAuth } from "@/hooks/use-auth";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "./ui/button";
 
 export function Layout({ children }: { children: ReactNode }) {

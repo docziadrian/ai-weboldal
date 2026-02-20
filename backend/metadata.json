@@ -1,0 +1,42 @@
+{
+  "name": "ES2023 S17 - Module D",
+  "displayName": "Interactive Frontend using an API",
+  "description": "Create a modern frontend application using a JavaScript framework to interact with AI services through a REST API. The Single Page Application includes authentication, error handling, and interactive features for chat, image generation, and image recognition services.",
+  "url": "https://github.com/marketable-it-skills/s17-es2023-module_d-interactive-frontend-using-an-api",
+  "skillDomainIds": [
+    1
+  ],
+  "competition": "EuroSkills Gdansk 2023",
+  "estTime": 4,
+  "authors": [
+    {
+      "name": "Cyril Wanner",
+      "url": "https://www.linkedin.com/in/cyrilwanner"
+    },
+    {
+      "name": "Sebastian Häni",
+      "url": "https://www.linkedin.com/in/sebastian-haeni/"
+    }
+  ],
+  "technologies": [
+    "JavaScript",
+    "TypeScript",
+    "React",
+    "Vue",
+    "Angular",
+    "SPA",
+    "REST API",
+    "HTML",
+    "CSS"
+  ],
+  "tags": [
+    "frontend",
+    "spa",
+    "javascript",
+    "api-consumption",
+    "authentication",
+    "ai-services",
+    "interactive"
+  ],
+  "status": "published"
+}

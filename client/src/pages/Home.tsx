@@ -2,11 +2,11 @@ import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { MessageSquare, Zap, Brain, ArrowRight } from "lucide-react";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 import AccessTokenDialog from "../components/AccessTokenDialog";
 
 export default function Home() {
-  const { setServiceToken, hasServiceToken } = useAuth();
+  const { token, setToken } = useAuth();
   const [, navigate] = useLocation();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<{
@@ -58,8 +58,8 @@ export default function Home() {
   ];
 
   const handleServiceClick = (service: typeof services[0]) => {
-    if (hasServiceToken(service.id)) {
-      // Already authenticated for this service, navigate directly
+    if (token) {
+      // Already have a global API token, navigate directly
       navigate(service.href);
     } else {
       // Show access token dialog
@@ -68,9 +68,9 @@ export default function Home() {
     }
   };
 
-  const handleTokenSubmit = (token: string) => {
+  const handleTokenSubmit = (newToken: string) => {
     if (selectedService) {
-      setServiceToken(selectedService.id, token);
+      setToken(newToken);
       setDialogOpen(false);
       navigate(selectedService.href);
     }

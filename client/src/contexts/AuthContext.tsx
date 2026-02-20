@@ -1,36 +1,49 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, ReactNode } from "react";
 
-interface AuthState {
+interface AuthContextType {
   isLoggedIn: boolean;
   username: string | null;
-  serviceTokens: Record<string, string>; // serviceId -> token
-}
-
-interface AuthContextType extends AuthState {
+  token: string | null;
   login: (username: string, password: string) => Promise<boolean>;
   logout: () => void;
-  setServiceToken: (serviceId: string, token: string) => void;
-  hasServiceToken: (serviceId: string) => boolean;
+  setToken: (token: string | null) => void;
+  authHeaders: () => Record<string, string>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [auth, setAuth] = useState<AuthState>({
-    isLoggedIn: false,
-    username: null,
-    serviceTokens: {},
-  });
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
+    () => localStorage.getItem("isLoggedIn") === "true"
+  );
+  const [username, setUsername] = useState<string | null>(
+    () => localStorage.getItem("username")
+  );
+  const [token, setTokenState] = useState<string | null>(
+    () => localStorage.getItem("api_token")
+  );
 
-  const login = async (username: string, password: string): Promise<boolean> => {
+  const setToken = useCallback((newToken: string | null) => {
+    if (newToken) {
+      localStorage.setItem("api_token", newToken);
+    } else {
+      localStorage.removeItem("api_token");
+    }
+    setTokenState(newToken);
+  }, []);
+
+  const login = async (usr: string, pwd: string): Promise<boolean> => {
     try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username: usr, password: pwd }),
       });
       if (res.ok) {
-        setAuth((prev) => ({ ...prev, isLoggedIn: true, username }));
+        setIsLoggedIn(true);
+        setUsername(usr);
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("username", usr);
         return true;
       }
       return false;
@@ -39,23 +52,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const logout = () => {
-    setAuth({ isLoggedIn: false, username: null, serviceTokens: {} });
-  };
+  const logout = useCallback(() => {
+    setIsLoggedIn(false);
+    setUsername(null);
+    setTokenState(null);
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("username");
+    localStorage.removeItem("api_token");
+  }, []);
 
-  const setServiceToken = (serviceId: string, token: string) => {
-    setAuth((prev) => ({
-      ...prev,
-      serviceTokens: { ...prev.serviceTokens, [serviceId]: token },
-    }));
-  };
-
-  const hasServiceToken = (serviceId: string) => {
-    return !!auth.serviceTokens[serviceId];
-  };
+  const authHeaders = useCallback((): Record<string, string> => {
+    if (token) {
+      return { Authorization: `Bearer ${token}` };
+    }
+    return {};
+  }, [token]);
 
   return (
-    <AuthContext.Provider value={{ ...auth, login, logout, setServiceToken, hasServiceToken }}>
+    <AuthContext.Provider value={{ isLoggedIn, username, token, login, logout, setToken, authHeaders }}>
       {children}
     </AuthContext.Provider>
   );
